@@ -1,0 +1,7 @@
+<%
+jagg.initializer("alerts/domain/manage", {
+    preInitialize:function () {
+        jagg.addHeaderJS("alerts/domain/manage", "jagg", "templates/alerts/domain/manage/js/manage.js");
+    }
+});
+%>

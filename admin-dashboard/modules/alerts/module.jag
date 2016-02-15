@@ -1,0 +1,24 @@
+<%
+jagg.module("alerts", {
+
+	getAllDomainsInfo:function () {
+        return jagg.require(jagg.getModulesDir() + "alerts/alerts-domain-list.jag").getAllDomainsInfo.apply(this, arguments);
+    },
+
+    getDomainSpecificConfigurationsInfo:function () {
+        return jagg.require(jagg.getModulesDir() + "alerts/alerts-domain-manage.jag").getDomainSpecificConfigurationsInfo.apply(this, arguments);
+    },
+
+    getDomain:function () {
+        return jagg.require(jagg.getModulesDir() + "alerts/alerts-domain-edit.jag").getDomain.apply(this, arguments);
+    },
+
+    deleteConfiguration:function () {
+        return jagg.require(jagg.getModulesDir() + "alerts/alerts-domain-manage.jag").deleteConfiguration.apply(this, arguments);
+    },
+    saveConfiguration:function () {
+        return jagg.require(jagg.getModulesDir() + "alerts/alerts-domain-edit.jag").saveConfiguration.apply(this, arguments);
+    },
+
+});
+%>

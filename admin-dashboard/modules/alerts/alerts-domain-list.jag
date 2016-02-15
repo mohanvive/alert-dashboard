@@ -1,0 +1,44 @@
+<%
+var log = new Log();
+
+var getAllDomainsInfo = function () {
+        try {
+        var carbon = require('carbon');
+        var process = require('process');
+        var realmConfiguration = new org.wso2.carbon.user.core.config.RealmConfigXMLProcessor().
+                buildRealmConfigurationFromFile();
+        var username = "admin";
+        var password = "admin";
+
+//        var carbonUtils = Packages.org.wso2.carbon.utils.CarbonUtils;        
+//        var isEmailLoginEnabled = carbonUtils.getServerConfiguration().getFirstProperty("EnableEmailUserName");
+//        var MultitenantConstants = Packages.org.wso2.carbon.utils.multitenancy.MultitenantConstants;
+//        if(isEmailLoginEnabled) {
+//            username = username + "@" + MultitenantConstants.SUPER_TENANT_DOMAIN_NAME;
+//        }
+
+        var stub = new org.wso2.carbon.event.execution.manager.stub.ExecutionManagerAdminServiceStub("https://localhost:9444/services/ExecutionManagerAdminService");
+        var client = stub._getServiceClient();
+        var options = client.getOptions();
+        var authenticator = new org.apache.axis2.transport.http.HttpTransportProperties.Authenticator();
+        authenticator.setUsername(username);
+        authenticator.setPassword(password);
+        authenticator.setPreemptiveAuthentication(true);
+        options.setProperty(org.apache.axis2.transport.http.HTTPConstants.AUTHENTICATE, authenticator);
+        client.setOptions(options);
+
+        var domainDTOs = stub.getAllDomainsInfo();
+        log.info(domainDTOs.length)       
+
+        return domainDTOs;
+    } catch (ex) {
+        var message = "Error occurred while Enabling/Disabing Analytics (Cause:" + ex.message + ")";
+        log.error(message);
+        return {
+            error: true,
+            message: message
+        };
+    }
+};
+
+%>

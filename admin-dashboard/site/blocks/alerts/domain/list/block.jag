@@ -1,0 +1,21 @@
+<%
+include("/jagg/jagg.jag");
+
+jagg.block("alerts/domain/list", {
+    initializer:function (data) {},
+
+    getInputs:function () {
+            return {
+
+            }
+        },
+
+        getOutputs:function (inputs) {   
+        
+            var result = jagg.module("alerts").getAllDomainsInfo();
+            return{
+                "domainInfo" : result
+            }       
+        }
+});
+%>

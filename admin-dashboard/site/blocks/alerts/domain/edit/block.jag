@@ -1,0 +1,25 @@
+<%
+include("/jagg/jagg.jag");
+
+jagg.block("alerts/domain/edit", {
+    initializer:function (data) {},
+
+    getInputs:function () {
+            return {
+
+            }
+        },
+
+        getOutputs:function (inputs) {   
+            
+            var domainName = request.getParameter("domainName");
+            var log = new Log();
+            log.info(domainName);
+
+            var result = jagg.module("alerts").getDomain(domainName);
+            return{
+                "domainDto" : result
+            }       
+        }
+});
+%>
