@@ -9,9 +9,7 @@ jagg.block("alerts/domain/list", {
 
             }
         },
-
-        getOutputs:function (inputs) {   
-        
+        getOutputs:function (inputs) {           
             var result = jagg.module("alerts").getAllDomainsInfo();
             return{
                 "domainInfo" : result

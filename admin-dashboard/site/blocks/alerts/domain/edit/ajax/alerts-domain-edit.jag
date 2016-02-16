@@ -15,18 +15,12 @@ include("/jagg/jagg.jag");
         });
     } else if (request.getMethod() == 'POST') {
         if (action == "saveConfiguration" ) {
-            
-            var log = new Log();
-            log.info("***********************************");
-
             var domainName =  request.getParameter("domainName", "UTF-8");
             var templateType =  request.getParameter("templateType", "UTF-8");
             var configurationName =  request.getParameter("configurationName", "UTF-8");
             var description =  request.getParameter("description", "UTF-8");
             var parameters =  request.getParameter("parameters", "UTF-8");
-
             mod = jagg.module("alerts");
-
             result = mod.saveConfiguration(domainName, templateType, configurationName, description, parameters);
             if (result.error) {
                 obj = {

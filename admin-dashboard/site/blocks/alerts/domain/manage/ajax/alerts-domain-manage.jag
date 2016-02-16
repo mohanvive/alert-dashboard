@@ -15,9 +15,6 @@ include("/jagg/jagg.jag");
         });
     } else if (request.getMethod() == 'POST') {
         if (action == "deleteConfiguration" ) {
-
-            var log = new Log();
-            log.info("In delete ++++++");
             var domainName =  request.getParameter("domainName", "UTF-8");
             var configurationName =  request.getParameter("configurationName", "UTF-8");
             mod = jagg.module("alerts");

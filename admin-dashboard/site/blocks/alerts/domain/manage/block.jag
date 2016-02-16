@@ -10,12 +10,8 @@ jagg.block("alerts/domain/manage", {
             }
         },
 
-        getOutputs:function (inputs) {   
-            
+        getOutputs:function (inputs) {               
             var domainName = request.getParameter("domainName");
-            var log = new Log();
-            log.info(domainName);
-
             var result = jagg.module("alerts").getDomainSpecificConfigurationsInfo(domainName);
             return{
                 "configurationInfo" : result

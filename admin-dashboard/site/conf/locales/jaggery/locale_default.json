@@ -51,5 +51,7 @@
     "domainTableColumnName":"Configuration Name",
     "domainTableColumnDescription":"Description",
     "templateType":"Template Type",
-    "actions":"Actions"
+    "actions":"Actions",
+    "common.button.edit":"Edit",
+    "common.button.delete":"Delete"
 }

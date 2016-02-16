@@ -10,13 +10,6 @@ var getDomainSpecificConfigurationsInfo = function (domainName) {
         var username = "admin";
         var password = "admin";
 
-//        var carbonUtils = Packages.org.wso2.carbon.utils.CarbonUtils;        
-//        var isEmailLoginEnabled = carbonUtils.getServerConfiguration().getFirstProperty("EnableEmailUserName");
-//        var MultitenantConstants = Packages.org.wso2.carbon.utils.multitenancy.MultitenantConstants;
-//        if(isEmailLoginEnabled) {
-//            username = username + "@" + MultitenantConstants.SUPER_TENANT_DOMAIN_NAME;
-//        }
-
         var stub = new org.wso2.carbon.event.execution.manager.stub.ExecutionManagerAdminServiceStub("https://localhost:9444/services/ExecutionManagerAdminService");
         var client = stub._getServiceClient();
         var options = client.getOptions();
@@ -26,12 +19,11 @@ var getDomainSpecificConfigurationsInfo = function (domainName) {
         authenticator.setPreemptiveAuthentication(true);
         options.setProperty(org.apache.axis2.transport.http.HTTPConstants.AUTHENTICATE, authenticator);
         client.setOptions(options);
-
-        var configInfo = stub.getConfigurationsInfo(domainName);   
-
+        var configInfo = stub.getConfigurationsInfo(domainName);
         return configInfo;
+
     } catch (ex) {
-        var message = "Error occurred while Enabling/Disabing Analytics (Cause:" + ex.message + ")";
+        var message = "Error occurred while Retrieving Domain Specific Configuration DTO (Cause:" + ex.message + ")";
         log.error(message);
         return {
             error: true,
@@ -49,13 +41,6 @@ var deleteConfiguration = function (domainName, configurationName) {
         var username = "admin";
         var password = "admin";
 
-//        var carbonUtils = Packages.org.wso2.carbon.utils.CarbonUtils;        
-//        var isEmailLoginEnabled = carbonUtils.getServerConfiguration().getFirstProperty("EnableEmailUserName");
-//        var MultitenantConstants = Packages.org.wso2.carbon.utils.multitenancy.MultitenantConstants;
-//        if(isEmailLoginEnabled) {
-//            username = username + "@" + MultitenantConstants.SUPER_TENANT_DOMAIN_NAME;
-//        }
-
         var stub = new org.wso2.carbon.event.execution.manager.stub.ExecutionManagerAdminServiceStub("https://localhost:9444/services/ExecutionManagerAdminService");
         var client = stub._getServiceClient();
         var options = client.getOptions();
@@ -65,18 +50,15 @@ var deleteConfiguration = function (domainName, configurationName) {
         authenticator.setPreemptiveAuthentication(true);
         options.setProperty(org.apache.axis2.transport.http.HTTPConstants.AUTHENTICATE, authenticator);
         client.setOptions(options);
-
         stub.deleteConfiguration(domainName, configurationName);   
 
-        var deletionSuccessMessage = "Domain Configuration deleted. Name of the configuration : "+ configurationName;
-
-        log.info(deletionSuccessMessage);
+        var deletionSuccessMessage = "Domain Configuration successfully deleted. Name of the configuration : "+ configurationName;
         return {
             error: false
         }       
 
     } catch (ex) {
-        var message = "Error occurred while Enabling/Disabing Analytics (Cause:" + ex.message + ")";
+        var message = "Error occurred while Deleting Alert Configuration (Cause:" + ex.message + ")";
         log.error(message);
         return {
             error: true,

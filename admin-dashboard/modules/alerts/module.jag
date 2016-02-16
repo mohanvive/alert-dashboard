@@ -13,12 +13,17 @@ jagg.module("alerts", {
         return jagg.require(jagg.getModulesDir() + "alerts/alerts-domain-edit.jag").getDomain.apply(this, arguments);
     },
 
+    getDomainConfiguration:function () {
+        return jagg.require(jagg.getModulesDir() + "alerts/alerts-domain-edit.jag").getDomainConfiguration.apply(this, arguments);
+    },
+
     deleteConfiguration:function () {
         return jagg.require(jagg.getModulesDir() + "alerts/alerts-domain-manage.jag").deleteConfiguration.apply(this, arguments);
     },
+    
     saveConfiguration:function () {
         return jagg.require(jagg.getModulesDir() + "alerts/alerts-domain-edit.jag").saveConfiguration.apply(this, arguments);
-    },
+    }
 
 });
 %>

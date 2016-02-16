@@ -10,15 +10,19 @@ jagg.block("alerts/domain/edit", {
             }
         },
 
-        getOutputs:function (inputs) {   
-            
+        getOutputs:function (inputs) {            
             var domainName = request.getParameter("domainName");
-            var log = new Log();
-            log.info(domainName);
+            var mode = request.getParameter("mode");
+            var configurationName = request.getParameter("configurationName");
+            var domainDto = jagg.module("alerts").getDomain(domainName);
+            var domainConfiguration = null;
+            if(mode==="edit" && configurationName != null){
+                domainConfiguration = jagg.module("alerts").getDomainConfiguration(domainName,configurationName);
+            }
 
-            var result = jagg.module("alerts").getDomain(domainName);
             return{
-                "domainDto" : result
+                "domainDto" : domainDto,
+                "domainConfiguration" : domainConfiguration
             }       
         }
 });

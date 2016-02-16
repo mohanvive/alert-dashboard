@@ -65,11 +65,12 @@
                         <td class="tcenter">
                             <a onclick="deleteConfiguration('<%=configurations[i].getFrom()%>','<%=configurations[i].getName()%>')">
                                 <i class="glyphicon glyphicon-remove"></i>
-                                <fmt:message key='common.button.delete'/></a></td>
+                                <%=i18n.localize("common.button.delete")%></a></td>
+                        
                         <td class="tcenter">
-                            <a href="template_configurations_ajaxprocessor.jsp?configurationName=<%=configurations[i].getName()%>&domainName=<%=configurations[i].getFrom()%>&templateType=<%=configurations[i].getType()%>">
+                            <a href="<%=jagg.url('/alerts-domain-edit?domainName='+configurations[i].getFrom()+"&configurationName="+configurations[i].getName()+"&templateType="+configurations[i].getType()+"&mode=edit")%>">
                                 <i class="glyphicon glyphicon-cog"></i>
-                                <fmt:message key='common.button.edit'/></a></td>
+                                <%=i18n.localize("common.button.edit")%></a></td>
                     </tr>
                     <%
                         }

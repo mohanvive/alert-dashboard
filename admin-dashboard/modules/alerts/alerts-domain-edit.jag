@@ -10,12 +10,36 @@ var getDomain = function (domainName) {
         var username = "admin";
         var password = "admin";
 
-//        var carbonUtils = Packages.org.wso2.carbon.utils.CarbonUtils;        
-//        var isEmailLoginEnabled = carbonUtils.getServerConfiguration().getFirstProperty("EnableEmailUserName");
-//        var MultitenantConstants = Packages.org.wso2.carbon.utils.multitenancy.MultitenantConstants;
-//        if(isEmailLoginEnabled) {
-//            username = username + "@" + MultitenantConstants.SUPER_TENANT_DOMAIN_NAME;
-//        }
+        var stub = new org.wso2.carbon.event.execution.manager.stub.ExecutionManagerAdminServiceStub("https://localhost:9444/services/ExecutionManagerAdminService");
+        var client = stub._getServiceClient();
+        var options = client.getOptions();
+        var authenticator = new org.apache.axis2.transport.http.HttpTransportProperties.Authenticator();
+        authenticator.setUsername(username);
+        authenticator.setPassword(password);
+        authenticator.setPreemptiveAuthentication(true);
+        options.setProperty(org.apache.axis2.transport.http.HTTPConstants.AUTHENTICATE, authenticator);
+        client.setOptions(options);
+        var configInfo = stub.getDomain(domainName);   
+        return configInfo;
+
+    } catch (ex) {
+        var message = "Error occurred while Retrieving Domain Information (Cause:" + ex.message + ")";
+        log.error(message);
+        return {
+            error: true,
+            message: message
+        };
+    }
+};
+
+var getDomainConfiguration = function (domainName, configurationName) {
+        try {
+        var carbon = require('carbon');
+        var process = require('process');
+        var realmConfiguration = new org.wso2.carbon.user.core.config.RealmConfigXMLProcessor().
+                buildRealmConfigurationFromFile();
+        var username = "admin";
+        var password = "admin";
 
         var stub = new org.wso2.carbon.event.execution.manager.stub.ExecutionManagerAdminServiceStub("https://localhost:9444/services/ExecutionManagerAdminService");
         var client = stub._getServiceClient();
@@ -26,11 +50,11 @@ var getDomain = function (domainName) {
         authenticator.setPreemptiveAuthentication(true);
         options.setProperty(org.apache.axis2.transport.http.HTTPConstants.AUTHENTICATE, authenticator);
         client.setOptions(options);
-
-        var configInfo = stub.getDomain(domainName);   
+        var configInfo = stub.getConfiguration(domainName, configurationName);   
         return configInfo;
+
     } catch (ex) {
-        var message = "Error occurred while Enabling/Disabing Analytics (Cause:" + ex.message + ")";
+        var message = "Error occurred while Retrieving Domain specific Configuration (Cause:" + ex.message + ")";
         log.error(message);
         return {
             error: true,
@@ -59,8 +83,8 @@ var saveConfiguration = function (domainName, templateType, configurationName, d
 
         for (var i in parameterStrings) {
             var parameterDTO = new ParameterDTOE();
-            parameterDTO.setName(parameterStrings[0].split(valueSeparator)[0]);
-            parameterDTO.setValue(parameterStrings[0].split(valueSeparator)[1]);
+            parameterDTO.setName(parameterStrings[i].split(valueSeparator)[0]);
+            parameterDTO.setValue(parameterStrings[i].split(valueSeparator)[1]);
             parameters.push(parameterDTO);
         }
 
@@ -73,14 +97,6 @@ var saveConfiguration = function (domainName, templateType, configurationName, d
         var username = "admin";
         var password = "admin";
 
-//        var carbonUtils = Packages.org.wso2.carbon.utils.CarbonUtils;        
-//        var isEmailLoginEnabled = carbonUtils.getServerConfiguration().getFirstProperty("EnableEmailUserName");
-//        var MultitenantConstants = Packages.org.wso2.carbon.utils.multitenancy.MultitenantConstants;
-//        if(isEmailLoginEnabled) {
-//            username = username + "@" + MultitenantConstants.SUPER_TENANT_DOMAIN_NAME;
-//        }
-
-
         var stub = new org.wso2.carbon.event.execution.manager.stub.ExecutionManagerAdminServiceStub("https://localhost:9444/services/ExecutionManagerAdminService");
         var client = stub._getServiceClient();
         var options = client.getOptions();
@@ -90,7 +106,6 @@ var saveConfiguration = function (domainName, templateType, configurationName, d
         authenticator.setPreemptiveAuthentication(true);
         options.setProperty(org.apache.axis2.transport.http.HTTPConstants.AUTHENTICATE, authenticator);
         client.setOptions(options);
-
         var configInfo = stub.saveConfiguration(templateConfigurationDTO);   
         return configInfo;
     } catch (ex) {

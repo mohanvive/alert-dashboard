@@ -1,8 +1,4 @@
 var saveConfiguration = function (domainName, templateType, configurationName, description, parameters) {
-    // if(!validateInputs()){
-    //     return;
-    // }
-
     jagg.post("/site/blocks/alerts/domain/edit/ajax/alerts-domain-edit.jag", {
         action:"saveConfiguration",
         domainName:domainName,
